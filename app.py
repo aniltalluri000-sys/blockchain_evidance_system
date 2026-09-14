@@ -6,13 +6,13 @@ from hashing import generate_hash
 from blockchain import Blockchain
 from database import create_table, add_evidence, get_all_evidence, total_evidence, search_case, get_hash
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder='templates', static_folder='static')
 
 create_table()
 
 blockchain = Blockchain()
 
-UPLOAD_FOLDER = "evidence"
+UPLOAD_FOLDER = "/tmp/evidence"
 
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
@@ -172,4 +172,5 @@ def download():
     )
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port, debug=False)
